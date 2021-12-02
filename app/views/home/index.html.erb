@@ -1,0 +1,39 @@
+<h1 class="pb-3">Home</h1>
+<% if current_user %>
+  <div class="pb-4"> 
+    <%= render 'tweets/form', tweet: @tweet %>
+  </div>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Content</th>
+        <th>Likes</th>
+        <th>Retweets</th>
+        <th>Fecha</th>
+        <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tweets.each do |tweet| %>
+      <tr>
+        <td><%= tweet.user_id %></td>
+        <td><%= tweet.username %></td>
+        <td><%= tweet.content %></td>
+        <td><%= tweet.likecount %></td>
+        <td><%= tweet.retweetcount %></td>
+        <td><%= tweet.publicacion %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <%= paginate @tweets, window: 2 %>
+  </div>
+</div>
