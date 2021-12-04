@@ -8,9 +8,9 @@
 <table>
   <thead>
     <tr>
-        <th>Photo</th>
-        <th>Name</th>
-        <th>Content</th>
+        <th>Avatar</th>
+        <th>Usuario</th>
+        <th>Contenido</th>
         <th>Likes</th>
         <th>Retweets</th>
         <th>Fecha</th>
@@ -21,12 +21,14 @@
   <tbody>
     <% @tweets.each do |tweet| %>
       <tr>
-        <td><%= tweet.user_id %></td>
+        <td><%= tweet.photourl %></td>
         <td><%= tweet.username %></td>
         <td><%= tweet.content %></td>
         <td><%= tweet.likecount %></td>
         <td><%= tweet.retweetcount %></td>
         <td><%= tweet.publicacion %></td>
+        <td><%= link_to 'Like', likebutton_path(tweet), method: :post %></td>
+        <td><%= tweet.retweetcount %></a></td>
       </tr>
     <% end %>
   </tbody>

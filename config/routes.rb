@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :jams
   get 'home/index'
+  post 'like/:tweet_id', to: 'likes#create', as: 'likebutton'
   devise_for :users, controllers: { sessions: 'users/sessions' }
   resources :tweets
   root 'home#index'

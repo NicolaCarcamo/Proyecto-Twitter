@@ -21,6 +21,6 @@ class Tweet < ApplicationRecord
     end
 
     def publicacion
-        created_at.strftime("%Y-%h-%d %R")
+        created_at.strftime("%Y-%h-%d %R") #hito 7
     end
 end
