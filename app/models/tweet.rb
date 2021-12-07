@@ -20,7 +20,11 @@ class Tweet < ApplicationRecord
         likes.count
     end
 
-    def publicacion
-        created_at.strftime("%Y-%h-%d %R") #hito 7
+    def publicationdate
+        if (Time.current - created_at) / 1.minutes < 60
+            ((Time.current - created_at) / 1.minutes).to_i     
+        else
+            ((Time.current - created_at) / 1.hours).to_i     
+        end
     end
 end
