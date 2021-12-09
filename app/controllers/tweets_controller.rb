@@ -7,6 +7,20 @@ class TweetsController < ApplicationController
   end
 
   def rt
+    @tweet = Tweet.new(rttweet_params)
+    @tweet.user = current_user
+    respond_to do |format|
+      if @tweet.save
+        format.html { redirect_to "/", notice: "Tweet creado éxitosamente." }
+        format.json { render :show, status: :created, location: @tweet }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @tweet.errors, status: :unprocessable_entity }
+      end
+    end    
+  end
+
+  def retweetcount
     
   end
 
@@ -71,6 +85,10 @@ class TweetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content)
+      params.require(:tweet).permit(:content, :rt)
+    end
+
+    def rttweet_params
+      params.permit(:content, :rt)
     end
 end

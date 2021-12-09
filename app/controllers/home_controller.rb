@@ -4,5 +4,6 @@ class HomeController < ApplicationController
   def index
     @tweets = Tweet.page(params[:page])
     @tweet = Tweet.new
+    @likes = Like.all
   end
 end

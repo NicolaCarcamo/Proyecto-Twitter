@@ -1,8 +1,14 @@
 class Tweet < ApplicationRecord
+    before_save :default_values
     has_many :likes, dependent: :destroy
+    has_many :rtweets, dependent: :destroy
     belongs_to :user
 
     validates :content, presence: true
+
+    def default_values
+        self.rt ||= 0 if self.rt.nil?
+    end
 
     def photourl
         user.profilepicture
@@ -17,7 +23,7 @@ class Tweet < ApplicationRecord
     end
 
     def retweetcount
-        likes.count
+        rtweets.count
     end
 
     def publicationdate
@@ -26,5 +32,9 @@ class Tweet < ApplicationRecord
         else
             ((Time.current - created_at) / 1.hours).to_i     
         end
+    end
+
+    def rtcontent
+        content
     end
 end

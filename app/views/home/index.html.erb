@@ -26,17 +26,25 @@
         <td><%= tweet.content %></td>
         <td><%= tweet.likecount %></td>
         <td><%= tweet.retweetcount %></td>
+        <!--Fecha y show del tweet-->
         <td><%= link_to tweet.publicationdate, tweet %>
         <% if (Time.current - tweet.created_at) / 1.minutes < 60 %> 
           minutos
         <%else%>
           horas
         <%end%></td>
-        <td><% if current_user %>
-        <%= link_to 'Like', likebutton_path(tweet, user_id: current_user, tweet_id: tweet.id), method: :post %>
-        <% else %>
-        <%end%></td>
-        <td><%= tweet.retweetcount %></td>
+        <!--Boton de like-->
+        <% if current_user %>
+          <td><% if @likes.where('tweet_id = ? AND user_id = ?', tweet.id, current_user.id).exists? %>
+          <%= link_to ("<i class='fas fa-heart'></i>").html_safe, unlikebutton_path(user_id: current_user, tweet_id: tweet.id), method: :delete %>
+          <% else %>
+            <%= link_to ("<i class='far fa-heart'></i>").html_safe, likebutton_path(tweet, user_id: current_user, tweet_id: tweet.id), method: :post %>
+          <%end%></td>
+        <% end %>
+        <!--Boton de rt-->
+        <% if current_user %>
+          <td><%= link_to ("<i class='fas fa-retweet'></i>").html_safe, rtbutton_path(tweet, user_id: current_user, tweet_id: tweet.id, content: tweet.rtcontent), method: :post %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
