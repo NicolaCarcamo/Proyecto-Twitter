@@ -1,4 +1,5 @@
 class LikesController < ApplicationController
+    before_action :find_user, only: [:destroy]
     before_action :find_tweet, only: [:destroy]
     before_action :find_like, only: [:destroy]
 
@@ -18,8 +19,12 @@ class LikesController < ApplicationController
         @tweet= Tweet.find(params[:tweet_id])
     end
 
+    def find_user
+        @user= User.find(params[:user_id])
+    end
+
     def find_like
-        @like = Like.where(tweet_id: :tweet_id)
+        @like = Like.find_by(tweet_id: @tweet.id, user_id: @user.id)
      end
 
     def like_params
