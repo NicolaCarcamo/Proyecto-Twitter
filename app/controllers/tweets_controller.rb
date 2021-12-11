@@ -6,24 +6,6 @@ class TweetsController < ApplicationController
     @tweets = Tweet.all
   end
 
-  def rt
-    @tweet = Tweet.new(rttweet_params)
-    @tweet.user = current_user
-    respond_to do |format|
-      if @tweet.save
-        format.html { redirect_to "/", notice: "Tweet creado éxitosamente." }
-        format.json { render :show, status: :created, location: @tweet }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @tweet.errors, status: :unprocessable_entity }
-      end
-    end    
-  end
-
-  def retweetcount
-    
-  end
-
   # GET /tweets/1 or /tweets/1.json
   def show
     @tweet = Tweet.find(params[:id])
@@ -75,6 +57,41 @@ class TweetsController < ApplicationController
       format.html { redirect_to tweets_url, notice: "Tweet was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+
+  def rt
+    @tweet = Tweet.new(rttweet_params)
+    @tweet.user = current_user
+    respond_to do |format|
+      if @tweet.save
+        format.html { redirect_to "/", notice: "Tweet creado éxitosamente." }
+        format.json { render :show, status: :created, location: @tweet }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @tweet.errors, status: :unprocessable_entity }
+      end
+    end    
+  end
+
+  def retweetcount
+    
+  end
+
+  def search
+    @likes = Like.all
+    if params[:search].blank?
+      redirect_to root_path and return
+    else
+      @parameter = params[:search].downcase 
+      @tweets = Tweet.all.where("lower(content) LIKE :search", search: "%#{@parameter}%")
+    end
+  end
+
+  def hashtags
+    @likes = Like.all
+    tag = Tag.find_by(name: params[:name])
+    @tweets = tag.tweets
   end
 
   private

@@ -1,0 +1,46 @@
+<table>
+  <thead>
+    <tr>
+        <th>Avatar</th>
+        <th>Usuario</th>
+        <th>Contenido</th>
+        <th>Likes</th>
+        <th>Retweets</th>
+        <th>Creado hace</th>
+        <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tweets.tweets_for_me.each do |tweet| %>
+      <tr>
+        <td><%= tweet.photourl %></td>
+        <td><%= tweet.username %></td>
+        <td><%= render_with_hashtags(tweet.content) %></td>
+        <td><%= tweet.likecount %></td>
+        <td><%= tweet.retweetcount %></td>
+        <!--Fecha y show del tweet-->
+        <td><%= link_to tweet.publicationdate, tweet %>
+        <% if (Time.current - tweet.created_at) / 1.minutes < 60 %> 
+          minutos
+        <%else%>
+          horas
+        <%end%></td>
+        <!--Boton de like-->
+        <td><% if @likes.where('tweet_id = ? AND user_id = ?', tweet.id, current_user.id).exists? %>
+          <%= link_to ("<i class='fas fa-heart'></i>").html_safe, unlikebutton_path(user_id: current_user, tweet_id: tweet.id), method: :delete %>
+        <% else %>
+            <%= link_to ("<i class='far fa-heart'></i>").html_safe, likebutton_path(tweet, user_id: current_user, tweet_id: tweet.id), method: :post %>
+        <%end%></td>
+        <!--Boton de rt-->
+        <td><%= link_to ("<i class='fas fa-retweet'></i>").html_safe, rtbutton_path(tweet, user_id: current_user, tweet_id: tweet.id, content: tweet.rtcontent), method: :post %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <%= paginate @tweets, window: 2 %>
+  </div>
+</div>

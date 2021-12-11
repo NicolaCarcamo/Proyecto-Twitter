@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'home/index'
+  root 'home#index'
 
   devise_for :users, controllers: { sessions: 'users/sessions' }
   
@@ -10,6 +11,13 @@ Rails.application.routes.draw do
   post 'like', to: 'likes#create', as: 'likebutton'
   delete 'like', to: 'likes#destroy', as: 'unlikebutton'
 
-  root 'home#index'
+  get 'friends', to: 'friends#friendlist', as: 'friendlist' 
+  post 'friend', to: 'friends#create', as: 'friendbutton'
+  delete 'friend', to: 'friends#destroy', as: 'unfriendbutton'
+
+  get 'search', to: 'tweets#search'
+
+  get '/tweets/hashtag/:name', to: 'tweets#hashtags'
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

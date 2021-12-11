@@ -3,8 +3,19 @@ class Tweet < ApplicationRecord
     has_many :likes, dependent: :destroy
     has_many :rtweets, dependent: :destroy
     belongs_to :user
+    has_and_belongs_to_many :tags
 
     validates :content, presence: true
+
+
+    after_create do
+        tweet = Tweet.find_by(id: self.id)
+        hashtags = self.content.scan(/#\w+/)
+        hashtags.map do |hashtag|
+            tag = Tag.find_or_create_by(name: hashtag.downcase.delete('#'))
+            tweet.tags << tag
+        end
+    end
 
     def default_values
         self.rt ||= 0 if self.rt.nil?
@@ -37,4 +48,6 @@ class Tweet < ApplicationRecord
     def rtcontent
         content
     end
+
+    scope :tweets_for_me, -> { where(user_id: :friend_id) } 
 end

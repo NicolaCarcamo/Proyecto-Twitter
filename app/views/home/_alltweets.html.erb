@@ -1,0 +1,38 @@
+<table>
+  <thead>
+    <tr>
+        <th>Avatar</th>
+        <th>Usuario</th>
+        <th>Contenido</th>
+        <th>Likes</th>
+        <th>Retweets</th>
+        <th>Creado hace</th>
+        <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tweets.each do |tweet| %>
+      <tr>
+        <td><%= tweet.photourl %></td>
+        <td><%= tweet.username %></td>
+        <td><%= render_with_hashtags(tweet.content) %></td>
+        <td><%= tweet.likecount %></td>
+        <td><%= tweet.retweetcount %></td>
+        <!--Fecha y show del tweet-->
+        <td><%= link_to tweet.publicationdate, tweet %>
+        <% if (Time.current - tweet.created_at) / 1.minutes < 60 %> 
+          minutos
+        <%else%>
+          horas
+        <%end%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <%= paginate @tweets, window: 2 %>
+  </div>
+</div>
