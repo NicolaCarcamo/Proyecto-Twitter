@@ -49,5 +49,4 @@ class Tweet < ApplicationRecord
         content
     end
 
-    scope :tweets_for_me, -> { where(user_id: :friend_id) } 
 end
