@@ -21,5 +21,7 @@ Rails.application.routes.draw do
 
   get '/tweets/hashtag/:name', to: 'tweets#hashtags'
 
+  mount API::Base, at: "/api"
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

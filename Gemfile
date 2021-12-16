@@ -8,6 +8,10 @@ gem 'rails-erd', group: :development
 gem 'jquery-rails'
 gem 'devise'
 gem 'activeadmin'
+gem 'grape'
+gem 'rack-cors'
+gem 'grape-active_model_serializers'
+gem 'grape_on_rails_routes'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 # Use sqlite3 as the database for Active Record
